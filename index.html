@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medicine Shop - Log Sale</title>
+
+  <!-- Browser tab & home screen icons -->
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4CAF50">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Log a New Sale</h2>
+
+  <nav>
+    <a href="dashboard.html">📊 Dashboard</a>
+    <a href="inventory.html">📦 Inventory</a>
+    <a href="sales.html">🧾 Sales History</a>
+  </nav>
+
+  <form id="saleForm" style="max-width:420px; margin:20px auto;">
+    <label>Item name</label><br>
+    <input type="text" id="item" list="itemList" required><br><br>
+    <datalist id="itemList"></datalist>
+
+    <label>Quantity sold</label><br>
+    <input type="number" id="qty" required><br><br>
+
+    <label>Selling price</label><br>
+    <input type="number" id="sell" step="0.01" required><br><br>
+
+    <label>Cost price</label><br>
+    <input type="number" id="cost" step="0.01" required><br><br>
+
+    <label>Remaining stock after sale</label><br>
+    <input type="number" id="left" required><br><br>
+
+    <button type="submit">Add Sale</button>
+    <button type="button" id="resetBtn">Reset Data</button>
+  </form>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      updateItemList();
+
+      const form = document.getElementById("saleForm");
+      const resetBtn = document.getElementById("resetBtn");
+
+      form.addEventListener("submit", function(e){
+        e.preventDefault();
+        const item = document.getElementById("item").value.trim();
+        const qty  = parseFloat(document.getElementById("qty").value);
+        const sell = parseFloat(document.getElementById("sell").value);
+        const cost = parseFloat(document.getElementById("cost").value);
+        const left = parseFloat(document.getElementById("left").value);
+
+        addSale(item, qty, sell, cost, left);
+        alert("Sale logged.");
+        form.reset();
+        updateItemList();
+      });
+
+      resetBtn.addEventListener("click", function(){
+        resetData();
+        alert("All data reset.");
+      });
+    });
+
+    // ------------------ PWA: Service Worker Registration ------------------
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('Service Worker registered'))
+        .catch(err => console.log('Service Worker registration failed:', err));
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales History</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Sales History</h2>
+  <nav>
+    <a href="index.html">🏠 Log Sale</a>
+    <a href="dashboard.html">📊 Dashboard</a>
+    <a href="inventory.html">📦 Inventory</a>
+  </nav>
+
+  <table id="salesTable" style="margin-top:20px; width:100%; border-collapse:collapse;">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>Sell</th>
+        <th>Cost</th>
+        <th>Left</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function(){
+      renderSales();
+    });
+  </script>
+</body>
+</html>

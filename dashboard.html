@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Dashboard</h2>
+  <nav>
+    <a href="index.html">🏠 Log Sale</a>
+    <a href="inventory.html">📦 Inventory</a>
+    <a href="sales.html">🧾 Sales History</a>
+  </nav>
+
+  <div id="dashboard" style="margin-top:20px;"></div>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function(){
+      renderDashboard();
+    });
+  </script>
+</body>
+</html>
