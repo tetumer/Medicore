@@ -35,7 +35,7 @@ fetch('busy_matrix.json').then(r=>r.json()).then(data=>{
     for(const d of days){
       const v=data[h][d];
       if(v==null){html+="<td style='background:#333'></td>";continue;}
-      const a=v/max;
+      const a=Math.sqrt(v/max);
       html+=`<td style="background:rgba(76,175,80,${a.toFixed(2)});color:${a>0.5?'#fff':'#000'}">${v.toFixed(1)}</td>`;
     }
     html+="</tr>";
