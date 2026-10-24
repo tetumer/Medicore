@@ -45,6 +45,7 @@ fetch('busy_matrix.json').then(r=>r.json()).then(data=>{
 </script>
 <select id="mixDay"></select>
 <select id="mixHour"></select>
+<select id="mixMonth"></select>
 <button id="mixBtn">Predict</button>
 <div id="mixResult"></div>
 <script>
@@ -52,11 +53,19 @@ const CLASSNAMES={M01AB:'Diclofenac-type',M01AE:'Ibuprofen-type',N02BA:'Aspirin-
 const days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 mixDay.innerHTML=days.map(d=>`<option>${d}</option>`).join('');
 mixHour.innerHTML=[...Array(24).keys()].map(h=>`<option>${h}</option>`).join('');
-let mix;
+mixMonth.innerHTML=[...Array(12).keys()].map(m=>`<option value="${m+1}">${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m]}</option>`).join('');
+let mix, sfac;
 fetch('mix_matrix.json').then(r=>r.json()).then(d=>mix=d);
+fetch('seasonal_factor.json').then(r=>r.json()).then(d=>sfac=d);
 mixBtn.onclick=()=>{
   const cell=mix[mixDay.value]?.[mixHour.value];
-  mixResult.innerHTML=cell?Object.entries(cell).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([c,v])=>`${CLASSNAMES[c]}: ${v}`).join('<br>'):'no data (closed?)';
+  if(!cell){mixResult.innerHTML='no data (closed?)';return;}
+  const top=Object.entries(cell).filter(([c])=>c!=='n')
+    .map(([c,v])=>[c, v*(sfac[c]?.[mixMonth.value]??1)])
+    .sort((a,b)=>b[1]-a[1]).slice(0,3);
+  const conf=cell.n<30?'<b style="color:#c00">low confidence</b>':'';
+  mixResult.innerHTML=top.map(([c,v])=>`${CLASSNAMES[c]}: ${v.toFixed(2)}`).join('<br>')
+    +`<br><small>based on ${cell.n} past ${mixDay.value}s ${conf}</small>`;
 };
 </script>
 </body>
