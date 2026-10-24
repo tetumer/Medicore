@@ -43,5 +43,21 @@ fetch('busy_matrix.json').then(r=>r.json()).then(data=>{
   document.getElementById('heatmap').innerHTML=html+"</table>";
 });
 </script>
+<select id="mixDay"></select>
+<select id="mixHour"></select>
+<button id="mixBtn">Predict</button>
+<div id="mixResult"></div>
+<script>
+const CLASSNAMES={M01AB:'Diclofenac-type',M01AE:'Ibuprofen-type',N02BA:'Aspirin-type',N02BE:'Paracetamol (Napa!)',N05B:'Anxiety meds',N05C:'Sleep meds',R03:'Asthma inhalers',R06:'Antihistamines'};
+const days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+mixDay.innerHTML=days.map(d=>`<option>${d}</option>`).join('');
+mixHour.innerHTML=[...Array(24).keys()].map(h=>`<option>${h}</option>`).join('');
+let mix;
+fetch('mix_matrix.json').then(r=>r.json()).then(d=>mix=d);
+mixBtn.onclick=()=>{
+  const cell=mix[mixDay.value]?.[mixHour.value];
+  mixResult.innerHTML=cell?Object.entries(cell).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([c,v])=>`${CLASSNAMES[c]}: ${v}`).join('<br>'):'no data (closed?)';
+};
+</script>
 </body>
 </html>
