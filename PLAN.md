@@ -1,0 +1,1 @@
+Holiday aftermath curve (Italian data): quiet on day 0–1, sales spike ~2 days after holidays (+0.18 units/hr), tail weakens by day 3. Based on ~30 holiday events — noisy, retest on BD data. celebrationLag feature confirmed.

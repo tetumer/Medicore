@@ -68,5 +68,32 @@ mixBtn.onclick=()=>{
     +`<br><small>based on ${cell.n} past ${mixDay.value}s ${conf}</small>`;
 };
 </script>
+<h3>Trained model (regression)</h3>
+<input type="date" id="regDate" value="2019-04-24">
+<select id="regHour"></select>
+<button id="regBtn">Predict total</button>
+<div id="regResult"></div>
+<script>
+let reg;
+fetch('regression_model.json').then(r=>r.json()).then(d=>reg=d);
+regHour.innerHTML=[...Array(24).keys()].map(h=>`<option>${h}</option>`).join('');
+const fmt=dt=>`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+regBtn.onclick=()=>{
+  const d=new Date(regDate.value+'T00:00:00');
+  const h=+regHour.value;
+  const hol=new Set(reg.holidays);
+  const back=n=>{const t=new Date(d);t.setDate(d.getDate()-n);return fmt(t);};
+  const f={
+    hour_sin:Math.sin(2*Math.PI*h/24),
+    hour_cos:Math.cos(2*Math.PI*h/24),
+    is_weekend:(d.getDay()===0||d.getDay()===6)?1:0,
+    is_winter:[12,1,2].includes(d.getMonth()+1)?1:0,
+    holiday_2days_ago:hol.has(back(2))?1:0,
+  };
+  let s=reg.base;
+  for(const k in f) s+=f[k]*reg.weights[k];
+  regResult.textContent='expected total units/hour: '+s.toFixed(2);
+};
+</script>
 </body>
 </html>
