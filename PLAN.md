@@ -1,1 +1,2 @@
 Holiday aftermath curve (Italian data): quiet on day 0–1, sales spike ~2 days after holidays (+0.18 units/hr), tail weakens by day 3. Based on ~30 holiday events — noisy, retest on BD data. celebrationLag feature confirmed.
+Premodel complete (Oct 2026): totals + per-class regression trained on Italian data. Holiday aftermath confirmed (+0.18 total, +0.12 paracetamol). BD holiday calendar: source manually from Cabinet Division circular (API lacks lunar dates). Holiday calendar swaps per serving year. Khata CSV spec: date, item, qty.
