@@ -1,4 +1,3 @@
-// Load sales and inventory data safely
 let sales;
 try {
   sales = JSON.parse(localStorage.getItem("sales") || "[]");
